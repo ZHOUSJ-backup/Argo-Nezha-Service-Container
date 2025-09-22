@@ -196,27 +196,6 @@ EOF
 
   # 根据参数生成哪吒服务端配置文件
   [ ! -d data ] && mkdir data
-  if [[ "$DASHBOARD_VERSION" =~ 0\.[0-9]{1,2}\.[0-9]{1,2}$ ]]; then
-    cat > ${WORK_DIR}/data/config.yaml << EOF
-Debug: false
-HTTPPort: $WEB_PORT
-Language: zh-CN
-GRPCPort: $GRPC_PORT
-GRPCHost: $ARGO_DOMAIN
-ProxyGRPCPort: $GRPC_PROXY_PORT
-TLS: true
-Oauth2:
-  Type: "github" #Oauth2 登录接入类型，github/gitlab/jihulab/gitee/gitea ## Argo-容器版本只支持 github
-  Admin: "$GH_USER" #管理员列表，半角逗号隔开
-  ClientID: "$GH_CLIENTID" # 在 ${GH_PROXY}https://github.com/settings/developers 创建，无需审核 Callback 填 http(s)://域名或IP/oauth2/callback
-  ClientSecret: "$GH_CLIENTSECRET"
-  Endpoint: "" # 如gitea自建需要设置 ## Argo-容器版本只支持 github
-site:
-  Brand: "Nezha Probe"
-  Cookiename: "nezha-dashboard" #浏览器 Cookie 字段名，可不改
-  Theme: "default"
-EOF
-  else
     LOCAL_TOKEN=$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 32)
     AGENT_UUID=$(openssl rand -hex 16 | sed 's/\(........\)\(....\)\(....\)\(....\)\(............\)/\1-\2-\3-\4-\5/')
     cat > ${WORK_DIR}/data/config.yaml << EOF
